@@ -1,0 +1,24 @@
+ <?php
+session_start();
+if(isset($_SESSION["session_name"]))
+{
+
+$connect=mysqli_connect("localhost","root","","mobileshop");
+if(isset($_REQUEST["brand_upd"]))
+{
+	/*if($_FILES["img"]["name"]=="")
+		$path=$_REQUEST["old_img"];
+	else
+	{
+		$path="upload/".$_FILES["img"]["name"];
+		move_uploaded_file($_FILES["img"]["tmp_name"],"../".$path);
+		unlink("../".$_REQUEST["old_img"]);
+	}*/
+	mysqli_query($connect,"update mobilebrand set brand_name='".$_REQUEST["brand_name"]."' where brand_id=".$_REQUEST["brand_id"]);
+	echo "<script>window.location='brand_view.php';</script>";
+}
+}	
+	else
+		echo "<script>window.location='login.php';</script>";
+
+?>

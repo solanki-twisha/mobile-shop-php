@@ -1,0 +1,54 @@
+<?php
+session_start();
+if(isset($_SESSION["session_name"]))
+{
+
+	include("header.php");
+	$connect=mysqli_connect("localhost","root","","mobileshop");
+	$result=mysqli_query($connect,"select * from mobile");
+	?>
+	<section class="w3ls-bnrbtm py-5" id="about">
+		<div class="container py-xl-5 py-lg-3">
+			<div class="row pb-5">
+				<div class="col-lg-12">
+	<?php
+	echo "<center><h1><b>MOBILES</b></h1>";
+	echo "<br> </br>";
+	echo "<table border=5 width=110% textsize=20px>";
+	echo "<tr>";
+	$no=mysqli_num_fields($result);
+	for ($i=0;$i<$no;$i++)
+	{
+		$fieldinfo=mysqli_fetch_field_direct($result,$i);
+		echo "<th>".$fieldinfo->name."</th>";
+	}
+	echo "<th>Update</th>
+			<th>Delete</th></tr>";
+	while($row=mysqli_fetch_array($result))
+	{
+		echo"<tr>";
+		echo "<td>".$row[0]."</td>";
+		echo "<td>".$row[1]."</td>";
+		
+		echo "<td>".$row[2]."</td>";
+		echo "<td>".$row[3]."</td>";
+		echo "<td><img src='../".$row[4]."' height=50px width=50px></td>";
+		echo "<td><a href='mobile_update.php?id=$row[0]'>Update</a></td>";
+		echo "<td><a href='mobile_delete.php?id=$row[0]'>Delete</a></td>";
+		echo "</tr>";
+	}
+	echo"</table>";
+	echo "</center>";
+?>
+<a href="mobile_add.php"><h3 align="center"><b>Add new</b></h3></a>
+
+</div>
+</div>
+</div>
+</section>
+<?php
+	include("footer.php");
+	}	
+	else
+		echo "<script>window.location='login.php';</script>";
+?>

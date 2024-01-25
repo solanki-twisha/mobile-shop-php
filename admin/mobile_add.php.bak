@@ -1,0 +1,82 @@
+<?php 
+session_start();
+if(isset($_SESSION["session_name"]))
+{
+include "header.php"; 
+$connect=mysqli_connect("localhost","root","","movieshop");
+$selcat=mysqli_query($connect,"select * from mobilebrand")
+?>
+
+<center>
+		<form name="form1" method="post" enctype="multipart/form-data">
+		<h1>Mobiles Data</h1>
+		<table border="3">
+	
+			<tr>
+				<td>brand_id</td>
+				<td>
+					<select name="brand_id">
+					<?php
+					while($cat=mysqli_fetch_array($selcat))
+					{
+						?>
+							<option value="<?php echo $cat[0]; ?>"><?php echo $cat[1]; ?></option>
+						<?php
+					}
+					?>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td>Mobile_name  </td>
+				<td><input type="text" name="mobile_name" /></td>
+			</tr>
+			
+			<!-- <tr>
+				<td>pro_detail</td>
+				<td><input type="text" name="pro_detail" /></td>
+			</tr> -->
+			
+			<tr>
+				<td>Mobile_price</td>
+				<td><input type="text" name="mobile_price" /></td>
+			</tr>
+
+			<tr>
+				<td>Mobile_image</td>
+				<td><input type="file" name="mobile_img" /></td>
+			</tr>
+			
+			<tr align="center">
+				<td colspan="2"> <input type="submit" name="sub" value="submit" /></td>
+			</tr>
+		</table>
+		
+		</form>
+</center>
+<br><br><br><br><br><br><br><br><br>	
+	</body>
+</html>
+<?php
+
+	include "footer.php";
+	
+	
+	if(isset($_POST["sub"]))
+	{
+		$cid=$_POST["brand_id"];
+		$nm=$_POST["mobile_name"];
+		// $dt=$_POST["pro_detail"];
+		$pr=$_POST["mobile_price"];
+		$path="upload/".$_FILES["mobile_img"]["name"];
+		move_uploaded_file($_FILES["mobile_img"]["tmp_name"],"../".$path);
+		mysqli_query($connect,"insert into mobile values(null,'$cid','$nm','$pr','$path')");
+		
+		echo "<script>window.location='mobile_view.php';</script>";
+	}
+}	
+	else
+		echo "<script>window.location='Login.php';</script>";
+
+?>

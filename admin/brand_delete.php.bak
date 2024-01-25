@@ -1,0 +1,27 @@
+<?php 
+session_start();
+if(isset($_SESSION["session_name"]))
+{
+
+include("header.php");
+		$connect=mysqli_connect("localhost","root","","movieshop");
+		 
+		 mysqli_query($connect,"delete from mobilebrand where brand_id=".$_REQUEST["id"]);
+	
+	echo "<script>window.location='brand_view.php';</script>";
+}
+	else	 
+
+	echo "<script>window.location='login.php';</script>";
+?>	
+
+	<?php
+
+		include("footer.php");
+		
+?>	 
+		 
+		 
+		 
+		 
+	
